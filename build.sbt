@@ -3,6 +3,10 @@ lazy val commonSettings = Seq(
   scalaVersion := "3.2.1",
 )
 
+lazy val testSettings = Seq(
+  libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.15" % Test,
+)
+
 lazy val root = (project in file(".")).
   aggregate(core).
   settings(commonSettings: _*).
@@ -21,6 +25,7 @@ lazy val api = (project in file("core") / "api")
 
 lazy val processing = (project in file("core") / "processing")
   .settings(commonSettings: _*)
+  .settings(testSettings: _*)
   .dependsOn(api)
 
 lazy val core = (project in file("core")).
@@ -28,5 +33,4 @@ lazy val core = (project in file("core")).
   settings(commonSettings: _*).
   settings(
     name := "core",
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.15" % Test,
   )
