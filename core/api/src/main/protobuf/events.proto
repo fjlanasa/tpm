@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+option java_package = "tpm.api";
+
+message VehiclePosition {
+    enum StopStatus {
+        INCOMING_AT = 0;
+        STOPPED_AT = 1;
+        IN_TRANSIT_TO = 2;
+    }
+
+    string agency_id = 1;
+    uint64 feed_timestamp = 2;
+    string service_date = 3;
+    string vehicle_id = 4;
+    string trip_id = 5;
+    string route_id = 6;
+    string direction_id = 7;
+    string stop_id = 8;
+    string stop_sequence = 9;
+    StopStatus stop_status = 10;
+    float latitude = 11;
+    float longitude = 12;
+}
+
+message StopEvent {
+    enum EventType {
+        ARRIVAL = 0;
+        DEPARTURE = 1;
+    }
+    string agency_id = 1;
+    uint64 feed_timestamp = 2;
+    string service_date = 3;
+    string vehicle_id = 4;
+    string trip_id = 5;
+    string route_id = 6;
+    string direction_id = 7;
+    string stop_id = 8;
+    string stop_sequence = 9;
+    float latitude = 10;
+    float longitude = 11;
+    StopEvent event_type = 12;
+}
+
+message HeadwayEvent {
+    string agency_id = 1;
+    uint64 feed_timestamp = 2;
+    string service_date = 3;
+    string vehicle_id = 4;
+    string trip_id = 5;
+    string route_id = 6;
+    string direction_id = 7;
+    string stop_id = 8;
+    string stop_sequence = 9;
+    float latitude = 10;
+    float longitude = 11;
+    uint64 headway_duration = 12;
+}
+
+message DwellEvent {
+    string agency_id = 1;
+    uint64 feed_timestamp = 2;
+    string service_date = 3;
+    string vehicle_id = 4;
+    string trip_id = 5;
+    string route_id = 6;
+    string direction_id = 7;
+    string stop_id = 8;
+    string stop_sequence = 9;
+    float latitude = 10;
+    float longitude = 11;
+    uint64 dwell_duration = 12;
+}
+
+message TravelTimeEvent {
+    string agency_id = 1;
+    uint64 feed_timestamp = 2;
+    string service_date = 3;
+    string vehicle_id = 4;
+    string trip_id = 5;
+    string route_id = 6;
+    string direction_id = 7;
+    string stop_id = 8;
+    string stop_sequence = 9;
+    float latitude = 10;
+    float longitude = 11;
+    string origin_stop_id = 12;
+    uint64 travel_duration = 13;
+}
