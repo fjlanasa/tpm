@@ -2,6 +2,14 @@ syntax = "proto3";
 
 option java_package = "tpm.api";
 
+
+message FeedUpdate {
+    string agency_id = 1;
+    uint64 feed_timestamp = 2;
+    string service_date = 3;
+    string url = 4;
+}
+
 message VehiclePosition {
     enum StopStatus {
         INCOMING_AT = 0;
@@ -39,7 +47,7 @@ message StopEvent {
     string stop_sequence = 9;
     float latitude = 10;
     float longitude = 11;
-    StopEvent event_type = 12;
+    EventType event_type = 12;
 }
 
 message HeadwayEvent {
