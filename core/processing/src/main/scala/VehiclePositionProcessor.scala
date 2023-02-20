@@ -32,6 +32,7 @@ trait VehiclePositionState(service: EventService) {
   def onComplete(
       key: EventEntityQuery[VehiclePosition],
       vehiclePosition: VehiclePosition,
+      state: Seq[VehiclePosition]
   ): Future[Seq[VehiclePosition]] = {
     service.vehiclePositionService
       .put(key, Seq(vehiclePosition))
@@ -44,7 +45,8 @@ class VehiclePositionProcessor(
 ) extends EventProcessor[
       VehiclePosition,
       VehiclePosition,
-    ](source, service) with VehiclePositionState(service) {
+    ](source, service)
+    with VehiclePositionState(service) {
   def produceEvents(
       vehiclePosition: VehiclePosition,
       state: Seq[VehiclePosition]

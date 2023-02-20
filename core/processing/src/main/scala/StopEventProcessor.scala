@@ -15,7 +15,8 @@ class StopEventProcessor(
 ) extends EventProcessor[
       VehiclePosition,
       StopEvent,
-    ](source, service) with VehiclePositionState(service) {
+    ](source, service)
+    with VehiclePositionState(service) {
   def produceEvents(
       vehiclePosition: VehiclePosition,
       state: Seq[VehiclePosition]

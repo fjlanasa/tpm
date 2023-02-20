@@ -14,10 +14,9 @@ trait EventProcessor[I, O](
   def process(input: I): Future[Seq[O]] = {
     val key = getInputKey(input)
     getCurrentState(key)
-      .map(produceEvents(input, _))
-      .flatMap({ case outputs =>
-        onComplete(key, input)
-          .map(_ => outputs)
+      .flatMap(state => {
+        val events = produceEvents(input, state)
+        onComplete(key, input, state).map(_ => events)
       })
   }
 
@@ -43,5 +42,6 @@ trait EventProcessor[I, O](
   def onComplete(
       key: EventEntityQuery[I],
       input: I,
+      state: Seq[I]
   ): Future[_]
 }
