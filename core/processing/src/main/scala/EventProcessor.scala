@@ -26,7 +26,7 @@ trait EventProcessor[I, O](
   }
 
   def processBatch(events: Seq[I]): Future[Seq[O]] = Future {
-    events
+    filterEvents(events)
       .map(event => {
         Await.result(
           process(event),
@@ -35,6 +35,8 @@ trait EventProcessor[I, O](
       })
       .flatten
   }
+
+  def filterEvents(events: Seq[I]): Seq[I] = events
 
   def getBatch(): Future[Seq[I]] = source()
 
