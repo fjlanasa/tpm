@@ -20,13 +20,12 @@ trait EventProcessor[I, O](
     val key = getInputKey(input)
     getCurrentState(key)
       .flatMap(state => {
-        val events = getEvents(input, state)
-        updateState(key, input, state).map(_ => events)
+        updateState(key, input, state).map(_ => processInput(input, state))
       })
   }
 
   def processBatch(events: Seq[I]): Future[Seq[O]] = Future {
-    filterEvents(events)
+    filterInputs(events)
       .map(event => {
         Await.result(
           processEvent(event),
@@ -36,7 +35,7 @@ trait EventProcessor[I, O](
       .flatten
   }
 
-  def filterEvents(events: Seq[I]): Seq[I] = events
+  def filterInputs(events: Seq[I]): Seq[I] = events
 
   def getBatch(): Future[Seq[I]] = source()
 
@@ -44,7 +43,7 @@ trait EventProcessor[I, O](
 
   def getCurrentState(key: EventEntityQuery[I]): Future[Seq[I]]
 
-  def getEvents(input: I, state: Seq[I]): Seq[O]
+  def processInput(input: I, state: Seq[I]): Seq[O]
 
   def updateState(
       key: EventEntityQuery[I],
