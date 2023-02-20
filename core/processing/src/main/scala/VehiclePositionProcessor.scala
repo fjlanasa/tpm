@@ -9,43 +9,10 @@ import tpm.services.EventService
 import tpm.services.EventEntityQuery
 import tpm.services.LocalEventEntityService
 
-class VehiclePositionProcessor(
-    source: () => Future[Seq[VehiclePosition]],
-    service: EventService
-) extends EventProcessor[
-      VehiclePosition,
-      VehiclePosition,
-    ](source, service) {
-  def process(
+trait VehiclePositionState(service: EventService) {
+  def getInputKey(
       vehiclePosition: VehiclePosition
-  ): Future[Seq[VehiclePosition]] = {
-    val key = getKey(vehiclePosition)
-    service.vehiclePositionService
-      .get(
-        key
-      )
-      .flatMap({ case events =>
-        service.vehiclePositionService
-          .put(key, Seq(vehiclePosition))
-          .map(_ => events)
-      })
-      .map(_.headOption)
-      .map({
-        case Some(lastVehiclePosition) =>
-          if (
-            lastVehiclePosition.latitude != vehiclePosition.latitude ||
-            lastVehiclePosition.longitude != vehiclePosition.longitude
-          ) {
-            Seq(vehiclePosition)
-          } else {
-            Seq.empty
-          }
-        case None =>
-          Seq(vehiclePosition)
-      })
-  }
-
-  def getKey(vehiclePosition: VehiclePosition) = EventEntityQuery(
+  ) = EventEntityQuery(
     entity = VehiclePosition(
       agencyId = vehiclePosition.agencyId,
       serviceDate = vehiclePosition.serviceDate,
@@ -53,4 +20,47 @@ class VehiclePositionProcessor(
     ),
     limit = Some(1)
   )
+
+  def getCurrentState(
+      key: EventEntityQuery[VehiclePosition]
+  ): Future[Seq[VehiclePosition]] =
+    service.vehiclePositionService
+      .get(
+        key
+      )
+
+  def onComplete(
+      key: EventEntityQuery[VehiclePosition],
+      vehiclePosition: VehiclePosition,
+  ): Future[Seq[VehiclePosition]] = {
+    service.vehiclePositionService
+      .put(key, Seq(vehiclePosition))
+  }
+}
+
+class VehiclePositionProcessor(
+    source: () => Future[Seq[VehiclePosition]],
+    service: EventService
+) extends EventProcessor[
+      VehiclePosition,
+      VehiclePosition,
+    ](source, service) with VehiclePositionState(service) {
+  def produceEvents(
+      vehiclePosition: VehiclePosition,
+      state: Seq[VehiclePosition]
+  ): Seq[VehiclePosition] = {
+    state.headOption match {
+      case Some(lastVehiclePosition) =>
+        if (
+          lastVehiclePosition.latitude != vehiclePosition.latitude ||
+          lastVehiclePosition.longitude != vehiclePosition.longitude
+        ) {
+          Seq(vehiclePosition)
+        } else {
+          Seq.empty
+        }
+      case None =>
+        Seq(vehiclePosition)
+    }
+  }
 }
