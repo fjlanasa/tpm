@@ -6,7 +6,7 @@ import concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Await
 import tpm.services.EventService
 
-trait EventProcessor[I, O, S](
+trait EventProcessor[I, O](
     source: () => Future[Seq[I]],
     service: EventService
 ) {

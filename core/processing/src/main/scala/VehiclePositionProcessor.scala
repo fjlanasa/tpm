@@ -15,7 +15,6 @@ class VehiclePositionProcessor(
 ) extends EventProcessor[
       VehiclePosition,
       VehiclePosition,
-      EventService
     ](source, service) {
   def process(
       vehiclePosition: VehiclePosition
