@@ -11,7 +11,7 @@ trait EventProcessor[I, O](
     source: () => Future[Seq[I]],
     service: EventService
 ) {
-  def process(input: I): Future[Seq[O]] = {
+  def processEvent(input: I): Future[Seq[O]] = {
     // get the key for the input
     // get the current state for the key
     // get the events for the input and state
@@ -29,7 +29,7 @@ trait EventProcessor[I, O](
     filterEvents(events)
       .map(event => {
         Await.result(
-          process(event),
+          processEvent(event),
           concurrent.duration.Duration(10, "seconds")
         )
       })
