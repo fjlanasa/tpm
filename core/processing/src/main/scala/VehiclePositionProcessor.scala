@@ -25,9 +25,10 @@ class VehiclePositionProcessor(
       .get(
         key
       )
-      .map({ case events =>
-        service.vehiclePositionService.put(key, Seq(vehiclePosition))
-        events
+      .flatMap({ case events =>
+        service.vehiclePositionService
+          .put(key, Seq(vehiclePosition))
+          .map(_ => events)
       })
       .map(_.headOption)
       .map({

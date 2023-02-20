@@ -23,6 +23,11 @@ class StopEventProcessor(
     val key = getKey(vehiclePosition)
     service.vehiclePositionService
       .get(key)
+      .flatMap({ case events =>
+        service.vehiclePositionService
+          .put(key, Seq(vehiclePosition))
+          .map(_ => events)
+      })
       .map(_.headOption)
       .map({
         case None =>
@@ -96,9 +101,6 @@ class StopEventProcessor(
                 )
               )
             case _ => Seq.empty
-      })
-      .andThen({ case _ =>
-        service.vehiclePositionService.put(key, Seq(vehiclePosition))
       })
   }
 
