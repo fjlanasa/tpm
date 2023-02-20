@@ -17,7 +17,7 @@ class StopEventProcessor(
       StopEvent,
     ](source, service)
     with VehiclePositionState(service) {
-  def produceEvents(
+  def getEvents(
       vehiclePosition: VehiclePosition,
       state: Seq[VehiclePosition]
   ): Seq[StopEvent] = {

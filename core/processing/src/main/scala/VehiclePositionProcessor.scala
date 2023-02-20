@@ -29,7 +29,7 @@ trait VehiclePositionState(service: EventService) {
         key
       )
 
-  def onComplete(
+  def updateState(
       key: EventEntityQuery[VehiclePosition],
       vehiclePosition: VehiclePosition,
       state: Seq[VehiclePosition]
@@ -47,7 +47,7 @@ class VehiclePositionProcessor(
       VehiclePosition,
     ](source, service)
     with VehiclePositionState(service) {
-  def produceEvents(
+  def getEvents(
       vehiclePosition: VehiclePosition,
       state: Seq[VehiclePosition]
   ): Seq[VehiclePosition] = {

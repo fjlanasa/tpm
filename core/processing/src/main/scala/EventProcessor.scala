@@ -12,11 +12,16 @@ trait EventProcessor[I, O](
     service: EventService
 ) {
   def process(input: I): Future[Seq[O]] = {
+    // get the key for the input
+    // get the current state for the key
+    // get the events for the input and state
+    // update the state for the key
+    // return the events
     val key = getInputKey(input)
     getCurrentState(key)
       .flatMap(state => {
-        val events = produceEvents(input, state)
-        onComplete(key, input, state).map(_ => events)
+        val events = getEvents(input, state)
+        updateState(key, input, state).map(_ => events)
       })
   }
 
@@ -37,9 +42,9 @@ trait EventProcessor[I, O](
 
   def getCurrentState(key: EventEntityQuery[I]): Future[Seq[I]]
 
-  def produceEvents(input: I, state: Seq[I]): Seq[O]
+  def getEvents(input: I, state: Seq[I]): Seq[O]
 
-  def onComplete(
+  def updateState(
       key: EventEntityQuery[I],
       input: I,
       state: Seq[I]
