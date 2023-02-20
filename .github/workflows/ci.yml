@@ -15,6 +15,5 @@ jobs:
       with:
         distribution: temurin
         java-version: 17
-        scala-version: 3
     - name: Build and Test
       run: sbt -v +test
