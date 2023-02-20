@@ -41,8 +41,10 @@ lazy val processing = (project in file("core") / "processing")
   .dependsOn(api, services)
 
 lazy val core = (project in file("core"))
+  .aggregate(api, processing, services)
   .dependsOn(api, processing, services)
   .settings(commonSettings: _*)
+  .settings(testSettings: _*)
   .settings(
     name := "core"
   )
