@@ -10,7 +10,7 @@ import tpm.api.events.StopEvent.EventType
 class DwellEventProcessor(
     source: () => Future[Seq[StopEvent]],
     service: EventService
-) extends EventProcessor[StopEvent, DwellEvent](source, service) {
+) extends EventProcessor[StopEvent, DwellEvent](source, service) with StopEventState(service) {
   def getInputKey(event: StopEvent): EventEntityQuery[StopEvent] =
     EventEntityQuery(
       entity = StopEvent(
@@ -21,10 +21,6 @@ class DwellEventProcessor(
       ),
       limit = Some(1)
     )
-
-  def getCurrentState(
-      key: EventEntityQuery[StopEvent]
-  ): Future[Seq[StopEvent]] = service.stopEventService.get(key)
 
   def processInput(input: StopEvent, state: Seq[StopEvent]): Seq[DwellEvent] =
     input.eventType match {
@@ -46,10 +42,4 @@ class DwellEventProcessor(
         }
       case _ => Seq.empty
     }
-
-  def updateState(
-      key: EventEntityQuery[StopEvent],
-      input: StopEvent,
-      state: Seq[StopEvent]
-  ): Future[Seq[StopEvent]] = service.stopEventService.put(key, Seq(input))
 }
