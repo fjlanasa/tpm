@@ -49,5 +49,5 @@ trait EventProcessor[I, O](
       key: EventEntityQuery[I],
       input: I,
       state: Seq[I]
-  ): Future[_]
+  ): Future[Seq[I]]
 }
