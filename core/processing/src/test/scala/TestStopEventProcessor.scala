@@ -1,6 +1,4 @@
 
-package tpm.services
-
 import org.scalatest.funsuite.AsyncFunSuite
 
 import tpm.processing.StopEventProcessor

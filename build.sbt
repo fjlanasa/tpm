@@ -38,6 +38,9 @@ lazy val services = (project in file("core") / "services")
 lazy val processing = (project in file("core") / "processing")
   .settings(commonSettings: _*)
   .settings(testSettings: _*)
+  .settings(
+    libraryDependencies += "com.google.transit" % "gtfs-realtime-bindings" % "0.0.4"
+  )
   .dependsOn(api, services)
 
 lazy val core = (project in file("core"))

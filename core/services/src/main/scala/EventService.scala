@@ -3,6 +3,7 @@ package tpm.services
 import scala.concurrent.Future
 import tpm.api.events.VehiclePosition
 import tpm.api.events.StopEvent
+import tpm.api.events.FeedUpdate
 
 trait EventEntityService[T, K] {
   def get(key: K): Future[Seq[T]]
@@ -19,5 +20,8 @@ class EventService(
     ],
     val stopEventService: EventEntityService[StopEvent, EventEntityQuery[
       StopEvent
+    ]],
+    val feedUpdateService: EventEntityService[FeedUpdate, EventEntityQuery[
+      FeedUpdate
     ]]
 )

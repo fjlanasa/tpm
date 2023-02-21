@@ -5,6 +5,7 @@ import scala.concurrent.Future
 import concurrent.ExecutionContext.Implicits.global
 import tpm.api.events.VehiclePosition
 import tpm.api.events.StopEvent
+import tpm.api.events.FeedUpdate
 
 class LocalEventEntityService[T, K](
     private var state: Map[K, Seq[T]] = Map[K, Seq[T]]()
@@ -30,5 +31,6 @@ class LocalEventService
       new LocalEventEntityService[VehiclePosition, EventEntityQuery[
         VehiclePosition
       ]],
-      new LocalEventEntityService[StopEvent, EventEntityQuery[StopEvent]]
+      new LocalEventEntityService[StopEvent, EventEntityQuery[StopEvent]],
+      new LocalEventEntityService[FeedUpdate, EventEntityQuery[FeedUpdate]]
     )
