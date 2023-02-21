@@ -17,8 +17,6 @@ class TestFeedUpdateProcessor extends AsyncFunSuite {
     )
 
   test("should emit events on first fetch") {
-    val path =
-      Paths.get("core/processing/src/test/resources/VehiclePositions.pb")
     val service = new LocalEventService()
     val processor = new FeedUpdateProcessor(
       source,
@@ -32,8 +30,6 @@ class TestFeedUpdateProcessor extends AsyncFunSuite {
   }
 
   test("should emit events if feed updates") {
-    val path =
-      Paths.get("core/processing/src/test/resources/VehiclePositions.pb")
     val service = new LocalEventService()
     val processor = new FeedUpdateProcessor(
       source,
@@ -50,8 +46,6 @@ class TestFeedUpdateProcessor extends AsyncFunSuite {
   }
 
   test("should not emit event if feed has not updated") {
-    val path =
-      Paths.get("core/processing/src/test/resources/VehiclePositions.pb")
     val service = new LocalEventService()
     val processor = new FeedUpdateProcessor(
       source,
