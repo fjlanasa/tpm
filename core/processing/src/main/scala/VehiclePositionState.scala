@@ -8,7 +8,6 @@ import concurrent.ExecutionContext.Implicits.global
 import tpm.services.EventService
 import tpm.services.EventEntityQuery
 
-
 trait VehiclePositionState(service: EventService) {
   def getInputKey(
       vehiclePosition: VehiclePosition

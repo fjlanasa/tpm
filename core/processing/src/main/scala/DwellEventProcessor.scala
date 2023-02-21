@@ -10,7 +10,8 @@ import tpm.api.events.StopEvent.EventType
 class DwellEventProcessor(
     source: () => Future[Seq[StopEvent]],
     service: EventService
-) extends EventProcessor[StopEvent, DwellEvent](source, service) with StopEventState(service) {
+) extends EventProcessor[StopEvent, DwellEvent](source, service)
+    with StopEventState(service) {
   def getInputKey(event: StopEvent): EventEntityQuery[StopEvent] =
     EventEntityQuery(
       entity = StopEvent(
