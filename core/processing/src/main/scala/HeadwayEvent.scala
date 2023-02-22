@@ -19,7 +19,7 @@ class HeadwayEventProcessor(
   override def filterInputs(events: Seq[StopEvent]): Seq[StopEvent] =
     events.filter(_.eventType == ARRIVAL)
 
-  def processInput(
+  def produceEvents(
       stopEvent: StopEvent,
       state: Seq[StopEvent]
   ): Seq[HeadwayEvent] = stopEvent.eventType match {

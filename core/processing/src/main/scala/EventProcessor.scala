@@ -8,8 +8,8 @@ import tpm.services.EventService
 import tpm.services.EventEntityQuery
 
 trait EventProcessor[I, O](
-    source: () => Future[Seq[I]],
-    service: EventService
+    val source: () => Future[Seq[I]],
+    val service: EventService
 ) {
   def processEvent(input: I): Future[Seq[O]] = {
     // get the key for the input
@@ -20,7 +20,7 @@ trait EventProcessor[I, O](
     val key = getInputKey(input)
     getCurrentState(key)
       .flatMap(state => {
-        updateState(key, input, state).map(_ => processInput(input, state))
+        updateState(key, input, state).map(_ => produceEvents(input, state))
       })
   }
 
@@ -43,7 +43,7 @@ trait EventProcessor[I, O](
 
   def getCurrentState(key: EventEntityQuery[I]): Future[Seq[I]]
 
-  def processInput(input: I, state: Seq[I]): Seq[O]
+  def produceEvents(input: I, state: Seq[I]): Seq[O]
 
   def updateState(
       key: EventEntityQuery[I],

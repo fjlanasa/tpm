@@ -16,7 +16,7 @@ class VehiclePositionProcessor(
       VehiclePosition,
     ](source, service)
     with VehiclePositionState(service) {
-  def processInput(
+  def produceEvents(
       vehiclePosition: VehiclePosition,
       state: Seq[VehiclePosition]
   ): Seq[VehiclePosition] = {

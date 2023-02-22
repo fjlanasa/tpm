@@ -23,7 +23,7 @@ class DwellEventProcessor(
       limit = Some(1)
     )
 
-  def processInput(input: StopEvent, state: Seq[StopEvent]): Seq[DwellEvent] =
+  def produceEvents(input: StopEvent, state: Seq[StopEvent]): Seq[DwellEvent] =
     input.eventType match {
       case EventType.ARRIVAL => Seq.empty
       case EventType.DEPARTURE =>

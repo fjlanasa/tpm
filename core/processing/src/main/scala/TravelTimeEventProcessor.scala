@@ -24,7 +24,7 @@ class TravelTimeEventProcessor(
       limit = Some(1)
     )
 
-  def processInput(
+  def produceEvents(
       input: StopEvent,
       state: Seq[StopEvent]
   ): Seq[TravelTimeEvent] = input.eventType match {

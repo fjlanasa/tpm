@@ -23,7 +23,7 @@ class FeedUpdateProcessor(
       FeedUpdate,
       VehiclePosition,
     ](source, service) {
-  def processInput(
+  def produceEvents(
       feedUpdate: FeedUpdate,
       state: Seq[FeedUpdate]
   ): Seq[VehiclePosition] = state.headOption match {
