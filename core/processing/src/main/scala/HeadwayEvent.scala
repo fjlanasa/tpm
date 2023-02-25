@@ -4,7 +4,7 @@ import tpm.api.events.StopEvent
 import scala.concurrent.Future
 import tpm.services.EventService
 import tpm.api.events.HeadwayEvent
-import tpm.services.EventEntityQuery
+import tpm.services.EventQuery
 import tpm.api.events.StopEvent.EventType.ARRIVAL
 
 class HeadwayEventProcessor(
@@ -45,8 +45,8 @@ class HeadwayEventProcessor(
 
   }
 
-  def getInputKey(event: StopEvent): EventEntityQuery[StopEvent] =
-    EventEntityQuery(
+  def getInputKey(event: StopEvent): EventQuery[StopEvent] =
+    EventQuery(
       entity = StopEvent(
         agencyId = event.agencyId,
         stopId = event.stopId,

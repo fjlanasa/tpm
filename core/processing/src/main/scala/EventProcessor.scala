@@ -5,7 +5,7 @@ import scala.concurrent.Future
 import concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Await
 import tpm.services.EventService
-import tpm.services.EventEntityQuery
+import tpm.services.EventQuery
 
 trait EventProcessor[I, O](
     val source: () => Future[Seq[I]],
@@ -39,14 +39,14 @@ trait EventProcessor[I, O](
 
   def getBatch(): Future[Seq[I]] = source()
 
-  def getInputKey(event: I): EventEntityQuery[I]
+  def getInputKey(event: I): EventQuery[I]
 
-  def getCurrentState(key: EventEntityQuery[I]): Future[Seq[I]]
+  def getCurrentState(key: EventQuery[I]): Future[Seq[I]]
 
   def produceEvents(input: I, state: Seq[I]): Seq[O]
 
   def updateState(
-      key: EventEntityQuery[I],
+      key: EventQuery[I],
       input: I,
       state: Seq[I]
   ): Future[Seq[I]]

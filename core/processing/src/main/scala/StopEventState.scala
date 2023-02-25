@@ -2,12 +2,12 @@ package tpm.processing
 
 import tpm.api.events.StopEvent
 import tpm.services.EventService
-import tpm.services.EventEntityQuery
+import tpm.services.EventQuery
 import scala.concurrent.Future
 
 trait StopEventState(service: EventService) {
   def getCurrentState(
-      key: EventEntityQuery[StopEvent]
+      key: EventQuery[StopEvent]
   ): Future[Seq[StopEvent]] =
     service.stopEventService
       .get(
@@ -15,7 +15,7 @@ trait StopEventState(service: EventService) {
       )
 
   def updateState(
-      key: EventEntityQuery[StopEvent],
+      key: EventQuery[StopEvent],
       stopEvent: StopEvent,
       state: Seq[StopEvent]
   ): Future[Seq[StopEvent]] = {

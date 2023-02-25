@@ -4,7 +4,7 @@ import tpm.api.events.DwellEvent
 import tpm.api.events.StopEvent
 import tpm.services.EventService
 import scala.concurrent.Future
-import tpm.services.EventEntityQuery
+import tpm.services.EventQuery
 import tpm.api.events.StopEvent.EventType
 
 class DwellEventProcessor(
@@ -12,8 +12,8 @@ class DwellEventProcessor(
     service: EventService
 ) extends EventProcessor[StopEvent, DwellEvent](source, service)
     with StopEventState(service) {
-  def getInputKey(event: StopEvent): EventEntityQuery[StopEvent] =
-    EventEntityQuery(
+  def getInputKey(event: StopEvent): EventQuery[StopEvent] =
+    EventQuery(
       entity = StopEvent(
         agencyId = event.agencyId,
         stopId = event.stopId,

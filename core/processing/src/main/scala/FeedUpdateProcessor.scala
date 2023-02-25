@@ -5,7 +5,7 @@ import tpm.api.events.VehiclePosition
 
 import tpm.processing.EventProcessor
 import java.net.URL
-import tpm.services.EventEntityQuery
+import tpm.services.EventQuery
 import scala.concurrent.Future
 import tpm.services.EventService
 import scala.jdk.CollectionConverters._
@@ -60,8 +60,8 @@ class FeedUpdateProcessor(
         )
   }
 
-  def getInputKey(event: FeedUpdate): EventEntityQuery[FeedUpdate] = {
-    EventEntityQuery(
+  def getInputKey(event: FeedUpdate): EventQuery[FeedUpdate] = {
+    EventQuery(
       entity = FeedUpdate(
         agencyId = event.agencyId
       ),
@@ -70,7 +70,7 @@ class FeedUpdateProcessor(
   }
 
   def updateState(
-      key: EventEntityQuery[FeedUpdate],
+      key: EventQuery[FeedUpdate],
       input: FeedUpdate,
       state: Seq[FeedUpdate]
   ) = {
@@ -78,7 +78,7 @@ class FeedUpdateProcessor(
   }
 
   def getCurrentState(
-      key: EventEntityQuery[FeedUpdate]
+      key: EventQuery[FeedUpdate]
   ): Future[Seq[FeedUpdate]] = {
     service.feedUpdateService.get(key)
   }

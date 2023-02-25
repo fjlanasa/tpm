@@ -5,7 +5,7 @@ import tpm.processing.EventProcessor
 import tpm.api.events.StopEvent
 import scala.concurrent.Future
 import tpm.services.EventService
-import tpm.services.EventEntityQuery
+import tpm.services.EventQuery
 import tpm.services.LocalEventEntityService
 
 class VehiclePositionProcessor(

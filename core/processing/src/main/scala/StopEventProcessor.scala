@@ -7,7 +7,7 @@ import concurrent.ExecutionContext.Implicits.global
 import tpm.services.EventService
 import tpm.api.events.VehiclePosition.StopStatus
 import tpm.services.EventService
-import tpm.services.EventEntityQuery
+import tpm.services.EventQuery
 
 class StopEventProcessor(
     source: () => Future[Seq[VehiclePosition]],

@@ -16,12 +16,12 @@ trait EventEntityService[T, K] {
 class EventService(
     val vehiclePositionService: EventEntityService[
       VehiclePosition,
-      EventEntityQuery[VehiclePosition]
+      EventQuery[VehiclePosition]
     ],
-    val stopEventService: EventEntityService[StopEvent, EventEntityQuery[
+    val stopEventService: EventEntityService[StopEvent, EventQuery[
       StopEvent
     ]],
-    val feedUpdateService: EventEntityService[FeedUpdate, EventEntityQuery[
+    val feedUpdateService: EventEntityService[FeedUpdate, EventQuery[
       FeedUpdate
     ]]
 )

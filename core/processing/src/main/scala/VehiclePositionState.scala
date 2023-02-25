@@ -6,12 +6,12 @@ import tpm.api.events.StopEvent
 import scala.concurrent.Future
 import concurrent.ExecutionContext.Implicits.global
 import tpm.services.EventService
-import tpm.services.EventEntityQuery
+import tpm.services.EventQuery
 
 trait VehiclePositionState(service: EventService) {
   def getInputKey(
       vehiclePosition: VehiclePosition
-  ) = EventEntityQuery(
+  ) = EventQuery(
     entity = VehiclePosition(
       agencyId = vehiclePosition.agencyId,
       serviceDate = vehiclePosition.serviceDate,
@@ -21,7 +21,7 @@ trait VehiclePositionState(service: EventService) {
   )
 
   def getCurrentState(
-      key: EventEntityQuery[VehiclePosition]
+      key: EventQuery[VehiclePosition]
   ): Future[Seq[VehiclePosition]] =
     service.vehiclePositionService
       .get(
@@ -29,7 +29,7 @@ trait VehiclePositionState(service: EventService) {
       )
 
   def updateState(
-      key: EventEntityQuery[VehiclePosition],
+      key: EventQuery[VehiclePosition],
       vehiclePosition: VehiclePosition,
       state: Seq[VehiclePosition]
   ): Future[Seq[VehiclePosition]] = {

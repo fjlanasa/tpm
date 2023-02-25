@@ -28,9 +28,9 @@ class LocalEventEntityService[T, K](
 
 class LocalEventService
     extends EventService(
-      new LocalEventEntityService[VehiclePosition, EventEntityQuery[
+      new LocalEventEntityService[VehiclePosition, EventQuery[
         VehiclePosition
       ]],
-      new LocalEventEntityService[StopEvent, EventEntityQuery[StopEvent]],
-      new LocalEventEntityService[FeedUpdate, EventEntityQuery[FeedUpdate]]
+      new LocalEventEntityService[StopEvent, EventQuery[StopEvent]],
+      new LocalEventEntityService[FeedUpdate, EventQuery[FeedUpdate]]
     )

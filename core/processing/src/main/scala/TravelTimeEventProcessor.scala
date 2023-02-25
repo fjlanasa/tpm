@@ -6,7 +6,7 @@ import scala.concurrent.Future
 import tpm.processing.StopEventState
 import tpm.services.EventService
 import tpm.api.events.TravelTimeEvent
-import tpm.services.EventEntityQuery
+import tpm.services.EventQuery
 import tpm.api.events.StopEvent.EventType
 import concurrent.ExecutionContext.Implicits.global
 
@@ -15,8 +15,8 @@ class TravelTimeEventProcessor(
     service: EventService
 ) extends EventProcessor[StopEvent, TravelTimeEvent](source, service)
     with StopEventState(service) {
-  def getInputKey(event: StopEvent): EventEntityQuery[StopEvent] =
-    EventEntityQuery(
+  def getInputKey(event: StopEvent): EventQuery[StopEvent] =
+    EventQuery(
       entity = StopEvent(
         agencyId = event.agencyId,
         tripId = event.tripId
@@ -47,7 +47,7 @@ class TravelTimeEventProcessor(
   }
 
   override def updateState(
-      key: EventEntityQuery[StopEvent],
+      key: EventQuery[StopEvent],
       input: StopEvent,
       state: Seq[StopEvent]
   ): Future[Seq[StopEvent]] = {
